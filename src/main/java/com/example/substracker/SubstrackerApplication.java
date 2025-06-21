@@ -9,5 +9,5 @@ public class SubstrackerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SubstrackerApplication.class, args);
 	}
-//test
+
 }
