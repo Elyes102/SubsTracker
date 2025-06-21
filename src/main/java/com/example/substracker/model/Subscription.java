@@ -1,5 +1,6 @@
 package com.example.substracker.model;
 
+import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -13,13 +14,17 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    String name;
-    String frequency;
-    Double pricePerMonth;
-    Double totalPayed = 0.0;
-    LocalDate startDate;
-    LocalDate nextPaymentDate;
-    int daysRemaining;
+    private String name;
+    private String frequency;
+    private Double pricePerMonth;
+    private Double totalPayed = 0.0;
+    private LocalDate startDate;
+    private LocalDate nextPaymentDate;
+    private int daysRemaining;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Subscription() {}
 
@@ -52,6 +57,14 @@ public class Subscription {
 
     public void setDaysRemaining() {
         daysRemaining = nextPaymentDate.getDayOfMonth() - LocalDate.now().getDayOfMonth();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

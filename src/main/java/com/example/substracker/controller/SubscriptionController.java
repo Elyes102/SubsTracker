@@ -1,5 +1,6 @@
 package com.example.substracker.controller;
-
+import org.springframework.security.core.Authentication;
+import com.example.substracker.model.User;
 import com.example.substracker.model.Subscription;
 import com.example.substracker.services.SubscriptionService;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,11 @@ public class SubscriptionController {
             this.service = service;
         }
 
-        @GetMapping
-        public List<Subscription> getAll() {
-            return service.getAllSubscriptions();
-        }
+    @GetMapping
+    public List<Subscription> getAll(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return service.getSubscriptionsByUser(user);
+    }
 
         @PostMapping
         public Subscription create(@RequestBody Subscription subscription) {

@@ -1,5 +1,5 @@
 package com.example.substracker.services;
-
+import com.example.substracker.model.User;
 import com.example.substracker.model.Subscription;
 import com.example.substracker.repository.SubscriptionRepository;
 import org.springframework.stereotype.Service;
@@ -40,4 +40,7 @@ public class SubscriptionService {
         return repository.findByNextPaymentDate(date);
     }
 
+    public List<Subscription> getSubscriptionsByUser(User user) {
+        return repository.findByUser(user);
+    }
 }
