@@ -12,4 +12,6 @@ import java.util.List;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
     List<Subscription> findByNextPaymentDate(LocalDate date);
     List<Subscription> findByUser(User user);
+
+    User user(User user);
 }
