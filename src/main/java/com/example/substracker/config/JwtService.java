@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class JwtService {
 
 
-    private static final String JWT_SECRET = "VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGFuZCByZWFzb25hYmx5IGxvbmcgc2VjcmV0IGtleSBmb3IgdGVzdGluZw==";
+    private static final String JWT_SECRET = "8QKFl9yqPskAbtJjxJ/XWT9oZQI7KczUwDJJtHuPHKoxJh3lH5/nGBgPo/bJKPsEfqDr7jketgullFrQ1+IvfQ==";
 
 
     public String extractUsername(String token) {

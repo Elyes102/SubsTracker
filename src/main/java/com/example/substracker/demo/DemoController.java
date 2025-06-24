@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
     @GetMapping
     public ResponseEntity<String> sayHello() {
+        System.out.println("DemoController called!");
         return ResponseEntity.ok("Hello World");
     }
 }
