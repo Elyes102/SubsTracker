@@ -25,10 +25,13 @@ public class SubscriptionController {
         return service.getSubscriptionsByUser(user);
     }
 
-        @PostMapping
-        public Subscription create(@RequestBody Subscription subscription) {
-            return service.saveSubscription(subscription);
-        }
+    @PostMapping
+    public Subscription create(@RequestBody Subscription subscription, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        subscription.setUser(user);
+        return service.saveSubscription(subscription);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Subscription> getById(@PathVariable Long id) {

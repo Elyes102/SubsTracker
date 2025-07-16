@@ -1,5 +1,6 @@
 package com.example.substracker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,6 +25,7 @@ public class Subscription {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public Subscription() {}
@@ -66,5 +68,10 @@ public class Subscription {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 
 }
