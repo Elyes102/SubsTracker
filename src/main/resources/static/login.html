@@ -1,90 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Connexion - SubsTracker</title>
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-    }
-    .login-container {
-      background-color: #111;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #333;
-      width: 300px;
-    }
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 1rem;
-      margin-bottom: 1.5rem;
-      border: none;
-      border-radius: 5px;
-      background-color: #222;
-      color: white;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #04aa6d;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .error {
-      color: red;
-      text-align: center;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <title>SubsTrackerEZ</title>
+  <link rel="stylesheet" href="/login.css" />
 </head>
 <body>
-<div class="login-container">
-  <h2>Connexion</h2>
-  <form id="login-form">
-    <input type="text" id="email" name="email" placeholder="Email" required />
-    <input type="password" id="password" name="password" placeholder="Mot de passe" required />
-    <button type="submit">Se connecter</button>
-    <p id="error-message" class="error"></p>
-  </form>
-</div>
+<header><h1>SubsTrackerEZ</h1></header>
+<h1>Login</h1>
+<form action="/login" method="post">
+  <label for="username">Email</label><br />
+  <input type="text" id="username" name="username" required /><br />
 
-<script>
-  document.getElementById("login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  <label for="password">Password</label><br />
+  <input type="password" id="password" name="password" required /><br />
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    const response = await fetch("/api/v1/auth/authenticate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, password })
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem("token", data.token);
-      window.location.href = "/dashboard.html";
-    } else {
-      document.getElementById("error-message").textContent = "Email ou mot de passe incorrect.";
-    }
-  });
-</script>
+  <button type="submit">Login</button>
+</form>
+<p>Don't have an account? <a href="register.html" class="singup">Singup</a></p>
 </body>
 </html>

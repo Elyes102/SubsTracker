@@ -28,8 +28,12 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/v1/auth/**",
                                 "/login.html",
+                                "/login.css",
                                 "/register.html",
+                                "/register",
+                                "/register.css",
                                 "/dashboard.html",
+                                "/dashboard.css",
                                 "/dashboard.js",
                                 "/css/**",
                                 "/js/**",

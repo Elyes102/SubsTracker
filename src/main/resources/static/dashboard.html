@@ -2,109 +2,28 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard - SubsTracker</title>
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 20px auto;
-      max-width: 700px;
-      padding: 0 10px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    #add-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    #add-bar input[type="text"],
-    #add-bar input[type="number"] {
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
-      background: #222;
-      color: white;
-      flex-grow: 1;
-      min-width: 150px;
-    }
-    #add-bar button {
-      background-color: #04aa6d;
-      border: none;
-      padding: 10px 15px;
-      color: white;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    #subscriptions-list {
-      list-style: none;
-      padding: 0;
-      max-height: 400px;
-      overflow-y: auto;
-      border-top: 1px solid #333;
-      border-bottom: 1px solid #333;
-    }
-    #subscriptions-list li {
-      background: #222;
-      margin: 8px 0;
-      padding: 10px;
-      border-radius: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #subscriptions-list li span {
-      flex-grow: 1;
-    }
-    #subscriptions-list li button {
-      background-color: #d9534f;
-      border: none;
-      color: white;
-      padding: 6px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-left: 10px;
-      flex-shrink: 0;
-    }
-    #logoutBtn {
-      background-color: #555;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 20px auto 0;
-      display: block;
-    }
-    #error-message {
-      color: #ff6b6b;
-      margin-top: 10px;
-      text-align: center;
-    }
-  </style>
+  <title>SubsTracker - Tableau de bord</title>
+  <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
-<h1>Mes abonnements</h1>
+<h1>Bienvenue sur ton tableau de bord</h1>
 
-<div id="add-bar">
-  <input type="text" id="nom" placeholder="Nom de l’abonnement" required />
-  <input type="number" id="cout" placeholder="Coût (€)" required min="0" step="0.01" />
+<section>
+  <h2>Liste de tes abonnements</h2>
+  <ul id="subscriptions-list"></ul>
+  <div id="error-message" style="color:red; margin-top:10px;"></div>
+</section>
+
+<section style="margin-top: 30px;">
+  <h2>Ajouter un abonnement</h2>
+  <input type="text" id="nom" placeholder="Nom de l'abonnement" />
+  <input type="number" id="cout" placeholder="Coût mensuel (€)" min="0" step="0.01" />
+  <label for="startDate">Date de début :</label>
+  <input type="date" id="startDate" />
   <button id="addBtn">Ajouter</button>
-</div>
+</section>
 
-<ul id="subscriptions-list"></ul>
-
-<p id="error-message"></p>
-
-<button id="logoutBtn">Se déconnecter</button>
+<button id="logoutBtn" style="margin-top: 30px;">Se déconnecter</button>
 
 <script src="dashboard.js"></script>
 </body>

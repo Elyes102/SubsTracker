@@ -3,32 +3,42 @@ const subscriptionsList = document.getElementById("subscriptions-list");
 const errorMessage = document.getElementById("error-message");
 const nomInput = document.getElementById("nom");
 const coutInput = document.getElementById("cout");
+const startDateInput = document.getElementById("startDate");
 const addBtn = document.getElementById("addBtn");
-
 
 if (!token) {
     window.location.href = "/login.html";
 }
 
+function daysBetween(date1, date2) {
+    const diffTime = date2.getTime() - date1.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
 
 function displaySubscriptions(subscriptions) {
     subscriptionsList.innerHTML = "";
     subscriptions.forEach(sub => {
         const li = document.createElement("li");
-        const span = document.createElement("span");
 
-        span.textContent = `${sub.name} - ${sub.pricePerMonth} €`;
-        li.appendChild(span);
+        // Calcul des jours restants
+        const today = new Date();
+        const nextPaymentDate = new Date(sub.nextPaymentDate);
+        const daysRemaining = daysBetween(today, nextPaymentDate);
 
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "Supprimer";
-        delBtn.onclick = () => deleteSubscription(sub.id);
-        li.appendChild(delBtn);
+        li.innerHTML = `
+      <strong>${sub.name}</strong> - ${sub.pricePerMonth.toFixed(2)} € / mois<br/>
+      Début: ${new Date(sub.startDate).toLocaleDateString()}<br/>
+      Prochaine échéance: ${nextPaymentDate.toLocaleDateString()}<br/>
+      Jours restants: ${daysRemaining >= 0 ? daysRemaining : 0}
+      <button style="margin-left: 10px;">Supprimer</button>
+    `;
+
+        // Bouton supprimer
+        li.querySelector("button").onclick = () => deleteSubscription(sub.id);
 
         subscriptionsList.appendChild(li);
     });
 }
-
 
 function loadSubscriptions() {
     fetch("/api/subscriptions", {
@@ -51,15 +61,20 @@ function loadSubscriptions() {
         });
 }
 
-
 function addSubscription() {
     const nom = nomInput.value.trim();
     const cout = parseFloat(coutInput.value);
+    const startDate = startDateInput.value;
 
-    if (!nom || isNaN(cout) || cout < 0) {
-        errorMessage.textContent = "Merci de saisir un nom valide et un coût positif.";
+    if (!nom || isNaN(cout) || cout < 0 || !startDate) {
+        errorMessage.textContent = "Merci de saisir un nom, un coût positif, et une date de début valide.";
         return;
     }
+
+    // Calcul de la prochaine échéance = startDate + 1 mois (simplifié)
+    const start = new Date(startDate);
+    const nextPaymentDate = new Date(start);
+    nextPaymentDate.setMonth(nextPaymentDate.getMonth() + 1);
 
     fetch("/api/subscriptions", {
         method: "POST",
@@ -71,10 +86,9 @@ function addSubscription() {
             name: nom,
             pricePerMonth: cout,
             frequency: "monthly",
-            startDate: "2025-07-16",
-            nextPaymentDate: "2025-08-16"
+            startDate: startDate,
+            nextPaymentDate: nextPaymentDate.toISOString().slice(0,10)
         })
-
     })
         .then(res => {
             if (!res.ok) throw new Error("Erreur lors de l’ajout de l’abonnement");
@@ -84,13 +98,13 @@ function addSubscription() {
             loadSubscriptions();
             nomInput.value = "";
             coutInput.value = "";
+            startDateInput.value = "";
             errorMessage.textContent = "";
         })
         .catch(err => {
             errorMessage.textContent = err.message;
         });
 }
-
 
 function deleteSubscription(id) {
     fetch(`/api/subscriptions/${id}`, {
@@ -108,14 +122,11 @@ function deleteSubscription(id) {
         });
 }
 
-
 addBtn.addEventListener("click", addSubscription);
-
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("token");
     window.location.href = "/login.html";
 });
-
 
 loadSubscriptions();

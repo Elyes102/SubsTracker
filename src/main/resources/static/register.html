@@ -1,100 +1,27 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Inscription - SubsTracker</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            height: 100vh;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-        }
-        .container {
-            background-color: #111;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #333;
-            width: 320px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 1rem;
-            margin-bottom: 1.5rem;
-            border: none;
-            border-radius: 5px;
-            background-color: #222;
-            color: white;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #04aa6d;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .error {
-            color: red;
-            text-align: center;
-        }
-        .link {
-            margin-top: 1rem;
-            text-align: center;
-        }
-        .link a {
-            color: #04aa6d;
-            text-decoration: none;
-        }
-    </style>
+    <title>SubsTrackerEZ Singup</title>
+    <link rel="stylesheet" href="register.css" />
 </head>
 <body>
-<div class="container">
-    <h2>Créer un compte</h2>
-    <form id="register-form">
-        <input type="text" id="firstname" name="firstname" placeholder="Prénom" required />
-        <input type="text" id="lastname" name="lastname" placeholder="Nom" required />
-        <input type="email" id="email" name="email" placeholder="Email" required />
-        <input type="password" id="password" name="password" placeholder="Mot de passe" required />
-        <button type="submit">S’inscrire</button>
-        <p id="error-message" class="error"></p>
-    </form>
-    <div class="link">
-        <a href="/login.html">Déjà un compte ? Connectez-vous</a>
-    </div>
-</div>
+<header>
+    <h1>SubsTrackerEZ</h1>
+</header>
+<h1>Singup</h1>
+<form action="/register" method="post">
+    <label for="username">username</label><br />
+    <input type="text" id="username" name="username" required /><br />
 
-<script>
-    document.getElementById('register-form').addEventListener('submit', async e => {
-        e.preventDefault();
-        const firstname = document.getElementById('firstname').value.trim();
-        const lastname = document.getElementById('lastname').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
+    <label for="email">Email</label><br />
+    <input type="email" id="email" name="email" required /><br />
 
-        const response = await fetch('/api/v1/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ firstname, lastname, email, password })
-        });
+    <label for="password">Password</label><br />
+    <input type="password" id="password" name="password" required /><br />
 
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            window.location.href = '/dashboard.html';
-        } else {
-            const errorMsg = await response.text();
-            document.getElementById('error-message').textContent = 'Erreur lors de l’inscription.';
-            console.error('Erreur inscription:', errorMsg);
-        }
-    });
-</script>
+    <button type="submit">Singup</button>
+</form>
+<p>Already have an account? <a class="login" href="login.html">Login</a></p>
 </body>
 </html>
