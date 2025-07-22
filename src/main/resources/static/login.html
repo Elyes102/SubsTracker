@@ -8,9 +8,9 @@
 <body>
 <header><h1>SubsTrackerEZ</h1></header>
 <h1>Login</h1>
-<form action="/login" method="post">
-  <label for="username">Email</label><br />
-  <input type="text" id="username" name="username" required /><br />
+<form id ="singInForm">
+  <label for="email">Email</label><br />
+  <input type="text" id="email" name="email" required /><br />
 
   <label for="password">Password</label><br />
   <input type="password" id="password" name="password" required /><br />
@@ -18,5 +18,37 @@
   <button type="submit">Login</button>
 </form>
 <p>Don't have an account? <a href="register.html" class="singup">Singup</a></p>
+
+<script>
+  document.getElementById('singInForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value
+    };
+
+    try {
+      const response = await fetch('/api/v1/auth/authenticate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error('Error in login');
+      }
+
+      const result = await response.json();
+      localStorage.setItem("token", result.token);
+      alert('Logged in');
+      window.location.href = '/dashboard.html';
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+</script>
 </body>
 </html>

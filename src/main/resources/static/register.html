@@ -10,7 +10,7 @@
     <h1>SubsTrackerEZ</h1>
 </header>
 <h1>Singup</h1>
-<form action="/register" method="post">
+<form id = "registerForm">
     <label for="username">username</label><br />
     <input type="text" id="username" name="username" required /><br />
 
@@ -23,5 +23,37 @@
     <button type="submit">Singup</button>
 </form>
 <p>Already have an account? <a class="login" href="login.html">Login</a></p>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = {
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
+
+        try {
+            const response = await fetch('/api/v1/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Error in registration');
+            }
+
+            const result = await response.json();
+            alert('Signup confirmed');
+            window.location.href = '/login.html';
+        } catch (error) {
+            alert(error.message);
+        }
+    });
+</script>
 </body>
 </html>

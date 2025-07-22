@@ -20,23 +20,24 @@ function displaySubscriptions(subscriptions) {
     subscriptions.forEach(sub => {
         const li = document.createElement("li");
 
-        // Calcul des jours restants
+
         const today = new Date();
         const nextPaymentDate = new Date(sub.nextPaymentDate);
         const daysRemaining = daysBetween(today, nextPaymentDate);
 
         li.innerHTML = `
       <strong>${sub.name}</strong> - ${sub.pricePerMonth.toFixed(2)} € / mois<br/>
-      Début: ${new Date(sub.startDate).toLocaleDateString()}<br/>
-      Prochaine échéance: ${nextPaymentDate.toLocaleDateString()}<br/>
-      Jours restants: ${daysRemaining >= 0 ? daysRemaining : 0}
-      <button style="margin-left: 10px;">Supprimer</button>
+      Start: ${new Date(sub.startDate).toLocaleDateString()}<br/>
+      Next payment: ${nextPaymentDate.toLocaleDateString()}<br/>
+      Days remaing: ${daysRemaining >= 0 ? daysRemaining : 0}
+      <button id="deleteButton" style="margin-left: 10px;">Delete</button>
     `;
 
-        // Bouton supprimer
+
         li.querySelector("button").onclick = () => deleteSubscription(sub.id);
 
         subscriptionsList.appendChild(li);
+
     });
 }
 
@@ -67,11 +68,11 @@ function addSubscription() {
     const startDate = startDateInput.value;
 
     if (!nom || isNaN(cout) || cout < 0 || !startDate) {
-        errorMessage.textContent = "Merci de saisir un nom, un coût positif, et une date de début valide.";
+        errorMessage.textContent = "Not valid";
         return;
     }
 
-    // Calcul de la prochaine échéance = startDate + 1 mois (simplifié)
+
     const start = new Date(startDate);
     const nextPaymentDate = new Date(start);
     nextPaymentDate.setMonth(nextPaymentDate.getMonth() + 1);
@@ -91,7 +92,7 @@ function addSubscription() {
         })
     })
         .then(res => {
-            if (!res.ok) throw new Error("Erreur lors de l’ajout de l’abonnement");
+            if (!res.ok) throw new Error("Could not add subscription");
             return res.json();
         })
         .then(newSubscription => {
@@ -114,7 +115,7 @@ function deleteSubscription(id) {
         }
     })
         .then(res => {
-            if (!res.ok) throw new Error("Erreur lors de la suppression");
+            if (!res.ok) throw new Error("Could not delete subscription");
             loadSubscriptions();
         })
         .catch(err => {
