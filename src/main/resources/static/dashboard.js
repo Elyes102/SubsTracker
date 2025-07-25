@@ -46,7 +46,7 @@ function loadSubscriptions() {
         headers: { Authorization: `Bearer ${token}` }
     })
         .then(res => {
-            if (!res.ok) throw new Error("Impossible de charger les abonnements");
+            if (!res.ok) throw new Error("Couldn't load subscriptions");
             return res.json();
         })
         .then(data => {

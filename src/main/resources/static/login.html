@@ -43,7 +43,6 @@
 
       const result = await response.json();
       localStorage.setItem("token", result.token);
-      alert('Logged in');
       window.location.href = '/dashboard.html';
     } catch (error) {
       alert(error.message);
