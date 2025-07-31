@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 public class Subscription {
@@ -21,7 +22,7 @@ public class Subscription {
     private Double totalPayed = 0.0;
     private LocalDate startDate;
     private LocalDate nextPaymentDate;
-    private int daysRemaining;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -55,10 +56,16 @@ public class Subscription {
 
     public void setNextPaymentDate(LocalDate nextPaymentDate) {this.nextPaymentDate = nextPaymentDate;}
 
-    public int getDaysRemaining() {return daysRemaining;}
 
-    public void setDaysRemaining() {
-        daysRemaining = nextPaymentDate.getDayOfMonth() - LocalDate.now().getDayOfMonth();
+
+
+    @Transient
+    public int getDaysRemaining() {
+        if (nextPaymentDate != null) {
+            long diff = ChronoUnit.DAYS.between(LocalDate.now(), nextPaymentDate);
+            return (int) Math.max(0, diff);
+        }
+        return 0;
     }
 
     public User getUser() {
@@ -74,4 +81,6 @@ public class Subscription {
     }
 
 
+
 }
+

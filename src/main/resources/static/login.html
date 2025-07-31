@@ -16,6 +16,7 @@
   <input type="password" id="password" name="password" required /><br />
 
   <button type="submit">Login</button>
+  <a href="#" id="demoLoginLink" class="demo-link">Login as Demo User</a>
 </form>
 <p>Don't have an account? <a href="register.html" class="singup">Singup</a></p>
 
@@ -48,6 +49,22 @@
       alert(error.message);
     }
   });
+
+  function loginAsDemoUser() {
+    fetch("/api/v1/auth/auth/demo", { method: "POST" })
+            .then(res => {
+              if (!res.ok) throw new Error("Error while logging in");
+              return res.json();
+            })
+            .then(data => {
+              localStorage.setItem("token", data.token);
+              window.location.href = "/dashboard.html";
+            })
+            .catch(err => alert(err.message));
+  }
+
+  document.getElementById("demoLoginLink").addEventListener("click", loginAsDemoUser);
+
 </script>
 </body>
 </html>

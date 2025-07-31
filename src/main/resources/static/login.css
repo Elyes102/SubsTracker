@@ -53,3 +53,9 @@ button {
 .singup{
     color: dodgerblue;
 }
+
+.demo-link{
+    display: block;
+    margin-top: 15px;
+    color : darkgrey;
+}

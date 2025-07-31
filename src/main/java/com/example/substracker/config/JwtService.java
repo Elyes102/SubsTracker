@@ -23,7 +23,7 @@ public class JwtService {
 
     private final String jwtSecret;
 
-    // Injection via constructeur
+
     public JwtService(@Value("${JWT_SECRET}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
     }

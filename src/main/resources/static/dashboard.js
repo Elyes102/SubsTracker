@@ -10,10 +10,7 @@ if (!token) {
     window.location.href = "/login.html";
 }
 
-function daysBetween(date1, date2) {
-    const diffTime = date2.getTime() - date1.getTime();
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-}
+
 
 function displaySubscriptions(subscriptions) {
     subscriptionsList.innerHTML = "";
@@ -21,17 +18,15 @@ function displaySubscriptions(subscriptions) {
         const li = document.createElement("li");
 
 
-        const today = new Date();
         const nextPaymentDate = new Date(sub.nextPaymentDate);
-        const daysRemaining = daysBetween(today, nextPaymentDate);
 
         li.innerHTML = `
-      <strong>${sub.name}</strong> - ${sub.pricePerMonth.toFixed(2)} € / mois<br/>
-      Start: ${new Date(sub.startDate).toLocaleDateString()}<br/>
-      Next payment: ${nextPaymentDate.toLocaleDateString()}<br/>
-      Days remaing: ${daysRemaining >= 0 ? daysRemaining : 0}
-      <button id="deleteButton" style="margin-left: 10px;">Delete</button>
-    `;
+  <strong>${sub.name}</strong> - ${sub.pricePerMonth.toFixed(2)} € / mois<br/>
+  Start: ${new Date(sub.startDate).toLocaleDateString()}<br/>
+  Next payment: ${nextPaymentDate.toLocaleDateString()}<br/>
+  Days remaining: ${sub.daysRemaining}
+  <button id="deleteButton" style="margin-left: 10px;">Delete</button>
+`;
 
 
         li.querySelector("button").onclick = () => deleteSubscription(sub.id);
